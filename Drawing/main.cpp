@@ -1,5 +1,5 @@
 //================================================
-// YOUR NAME GOES HERE <-----------------  
+// Dylan Fortney <-----------------  
 //================================================
 #include <iostream>
 #include <fstream>
@@ -30,6 +30,11 @@ int main()
 	
 	// ********* Add code here to make the managers read from shapes file (if the file exists)
 
+	fstream SaveFile("SaveFile.bin", ios::out| ios::in | ios::binary);
+	//I know that either SaveFile.read() or some sort of getline is supposed to go here. I just don't know how to get it to read everything into the needed variables. I tried using a Setter function but I couldn't get it working.
+	//Should I be trying to read it into the ShapesList vector or should I be reading each piece into it's own variables and then pass all those to add shape and loop that until it's done reading the file?
+	
+	
 	while (window.isOpen()) 
 	{
 		Event event;
@@ -39,13 +44,16 @@ int main()
 			{
 				window.close();
 				// ****** Add code here to write all data to shapes file
+				shapeMgr.Save(SaveFile);
+				settingsMgr.Save(SaveFile);
+
 			}
 			else if (event.type == Event::MouseButtonReleased)
 			{
 				// maybe they just clicked on one of the settings "buttons"
 				// check for this and handle it.
 				Vector2f mousePos = window.mapPixelToCoords(Mouse::getPosition(window));
-				settingsUI.handleMouseUp(mousePos);
+				settingsUI.handleMouseUp(mousePos, &settingsMgr);
 			}
 			else if (event.type == Event::MouseMoved && Mouse::isButtonPressed(Mouse::Button::Left))
 			{
